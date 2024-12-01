@@ -1,10 +1,13 @@
 import { useState, useCallback } from 'react';
+import { paragraphs } from '../utils/paragraphs';
 
-import { generateWord } from '../utils';
-
-export const useWord = (numberOfWords: number) => {
+export const useWord = () => {
+  // Keep track of which paragraph we're on
+  const [currentParagraphIndex, setCurrentParagraphIndex] = useState(0);
+  
+  // Initialize with the first paragraph
   const [word, setWord] = useState<string>(
-    () => generateWord(numberOfWords) + ' '
+    () => paragraphs[0] + ' '
   );
   const [totalWord, setTotalWord] = useState<string>(word);
 
@@ -19,14 +22,24 @@ export const useWord = (numberOfWords: number) => {
   const updateWord = useCallback(
     (erase = false) => {
       setWord(() => {
-        const genWord = generateWord(numberOfWords) + ' ';
-        if (erase) eraseWord(genWord);
-        else appendWord(genWord);
-        return genWord;
+        // Get next paragraph (cycle back to start if we reach the end)
+        const nextIndex = (currentParagraphIndex + 1) % paragraphs.length;
+        setCurrentParagraphIndex(nextIndex);
+        
+        const nextParagraph = paragraphs[nextIndex] + ' ';
+        
+        if (erase) eraseWord(nextParagraph);
+        else appendWord(nextParagraph);
+        
+        return nextParagraph;
       });
     },
-    [numberOfWords, appendWord, eraseWord]
+    [currentParagraphIndex, appendWord, eraseWord]
   );
 
-  return { word, totalWord, setTotalWord, updateWord, appendWord };
+  return {
+    word,
+    totalWord,
+    updateWord,
+  };
 };

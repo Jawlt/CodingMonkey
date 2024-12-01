@@ -19,15 +19,17 @@ const WordWrapper = ({ children, focused, setFocused }: WordWrapperProps) => {
           Focus to start typing
         </span>
       </div>
-      <div
-        className={`relative mt-5 focus:border-0 focus:border-none focus:outline-none ${
-          focused ? 'blur-none' : 'cursor-pointer blur-md'
-        } `}
-        tabIndex={0}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-      >
-        {children}
+      <div className="w-full max-w-[800px] mx-auto">
+        <div
+          className={`relative mt-5 focus:border-0 focus:border-none focus:outline-none ${
+            focused ? 'blur-none' : 'cursor-pointer blur-md'
+          } `}
+          tabIndex={0}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+        >
+          {children}
+        </div>
       </div>
     </>
   );
