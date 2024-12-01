@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import { useThemeContext } from '../hooks/useTheme';
 import DataTable from 'react-data-table-component';
+import axios from 'axios';
 
 const Leaderboard: React.FC = () => {
   const { systemTheme } = useThemeContext();
+  const [data, setData] = useState<any[]>([]);
 
-  // Columns for the table
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const columns = [
     {
       name: 'Name',
@@ -63,13 +68,28 @@ const Leaderboard: React.FC = () => {
     },
   };
 
+  // Fetch data
+  async function fetchData() {
+    try {
+      const url = 'http://localhost:3000/api/allUsers/';
+      const res = await axios.get(url);
 
-  // Example data
-  const data = [
-    { name: 'Alice', score: 150, time: '2:00', accuracy: '95%', wpm: 80 },
-    { name: 'Bob', score: 140, time: '2:15', accuracy: '90%', wpm: 75 },
-    { name: 'Charlie', score: 180, time: '1:50', accuracy: '97%', wpm: 85 },
-  ];
+      // Map fetched data to the required structure
+      const transformedData = res.data.map((item: any) => ({
+        name: item.userId || 'Unknown', // Fallback for missing names
+        score: item.topScore.score || item.topScore || 0, // Support both formats
+        time: item.topScore.time || 'N/A', // Default to 'N/A' if not provided
+        accuracy: item.topScore.accuracy
+          ? `${item.topScore.accuracy.toFixed(2)}%`
+          : 'N/A',
+        wpm: item.topScore.wpm || 'N/A',
+      }));
+
+      setData(transformedData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
   return (
     <div
