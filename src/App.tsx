@@ -1,7 +1,9 @@
 import { useDetectDevice } from './hooks/useDetectDevice';
 import { useSystem } from './hooks/useSystem';
 import { useThemeContext } from './hooks/useTheme';
+import { useAuth0 } from '@auth0/auth0-react';
 
+import Login from './components/Login';
 import Countdown from './components/Countdown';
 import Footer from './components/Footer';
 import Header from './components/Header';
@@ -15,6 +17,7 @@ import WordWrapper from './components/WordWrapper';
 import MobileNotSupported from './components/MobileNotSupported';
 
 function App() {
+  const { isAuthenticated, isLoading } = useAuth0();
   const { systemTheme } = useThemeContext();
   const {
     charTyped,
@@ -37,6 +40,24 @@ function App() {
   } = useSystem();
 
   const isMobile = useDetectDevice();
+
+  if (isLoading) {
+    return (
+      <div 
+        className="h-screen w-full flex items-center justify-center"
+        style={{
+          backgroundColor: systemTheme.background.primary,
+          color: systemTheme.text.primary,
+        }}
+      >
+        Loading...
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Login />;
+  }
 
   return (
     <div
