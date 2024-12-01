@@ -2,6 +2,7 @@ import { useDetectDevice } from './hooks/useDetectDevice';
 import { useSystem } from './hooks/useSystem';
 import { useThemeContext } from './hooks/useTheme';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useState } from 'react';
 
 import Login from './components/Login';
 import Countdown from './components/Countdown';
@@ -15,10 +16,12 @@ import UserTyped from './components/UserTyped';
 import WordContainer from './components/WordContainer';
 import WordWrapper from './components/WordWrapper';
 import MobileNotSupported from './components/MobileNotSupported';
+import LanguageSelect from './components/SimpleLanguageSelect';
 
-function App() {
+const App = () => {
   const { isAuthenticated, isLoading } = useAuth0();
   const { systemTheme } = useThemeContext();
+  const [selectedLanguage, setSelectedLanguage] = useState<'python' | 'javascript' | 'c'>('python');
   const {
     charTyped,
     countdown,
@@ -37,7 +40,7 @@ function App() {
     closeModal,
     openModal,
     setTime,
-  } = useSystem();
+  } = useSystem(selectedLanguage);
 
   const isMobile = useDetectDevice();
 
@@ -82,12 +85,20 @@ function App() {
               setTime={setTime}
               restart={restartTest}
             />
-            <Countdown countdown={countdown} reset={resetCountdown} />
+            <div className="flex justify-between items-center w-full">
+              <LanguageSelect
+                selectedLanguage={selectedLanguage}
+                onLanguageChange={setSelectedLanguage}
+              />
+              <Countdown countdown={countdown} reset={resetCountdown} />
+            </div>
+
             <WordWrapper
               focused={wordContainerFocused}
               setFocused={setWordContainerFocused}
+              restart={restartTest}  // Add this prop
             >
-              <WordContainer word={word} />
+              <WordContainer word={word} selectedLanguage={selectedLanguage} />
               <UserTyped
                 word={word}
                 check={checkCharacter}

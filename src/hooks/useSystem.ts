@@ -16,7 +16,9 @@ import {
 import type { Results } from '../types';
 import type { HistoryType } from '../types';
 
-export const useSystem = () => {
+type LanguageType = 'python' | 'javascript' | 'c';
+
+export const useSystem = (selectedLanguage: LanguageType) => {
   const [results, setResults] = useState<Results>({
     accuracy: 0,
     wpm: 0,
@@ -33,7 +35,10 @@ export const useSystem = () => {
   const [wordContainerFocused, setWordContainerFocused] = useState(false);
   const [time, setTime] = useState(() => getLocalStorageValue('time') || 15000);
   const { countdown, resetCountdown, startCountdown } = useCountdown(time);
-  const { word, updateWord, totalWord } = useWord();
+  
+  // Updated useWord call with selectedLanguage
+  const { word, updateWord, totalWord, resetWord } = useWord(selectedLanguage);
+  
   const {
     charTyped,
     typingState,
@@ -45,6 +50,11 @@ export const useSystem = () => {
     setTypingState,
   } = useKeyDown(wordContainerFocused);
   const { modalIsOpen, aboutModal, openModal, closeModal } = useModal();
+
+  // Add useEffect to handle language changes
+  useEffect(() => {
+    resetWord();
+  }, [selectedLanguage, resetWord]);
 
   const restartTest = useCallback(() => {
     resetCountdown();
@@ -156,5 +166,7 @@ useEffect(() => {
     checkCharacter,
     closeModal,
     openModal,
+    resetWord,  // Add resetWord to the returns
+    selectedLanguage,  // Add selectedLanguage to the returns
   };
 };
