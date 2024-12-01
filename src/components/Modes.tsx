@@ -16,7 +16,7 @@ const Modes: React.FC = () => {
       }}
     >
       <Header />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 w-full max-w-6xl self-center">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 w-full max-w-6xl self-center mt-[10%]">
         {/* Normal Mode Card */}
         <div
           className="p-6 rounded-lg shadow-lg text-center"
