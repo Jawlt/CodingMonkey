@@ -8,12 +8,11 @@ const usersSchema = new mongoose.Schema({
     },
     email: {
         type:String,
-        required:true,
-        unique: true
+        required:true
     },
   topScore: {
     wpm: { type: Number},
-    cpm: { type: Number},
+    timing: { type: Number},
     accuracy: { type: Number},
     error: { type: Number},
     score: { type: Number}

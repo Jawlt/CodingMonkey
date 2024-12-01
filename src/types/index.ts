@@ -3,6 +3,7 @@ export interface Results {
   cpm: number;
   wpm: number;
   error: number;
+  timing: number;
 }
 
 export interface AccuracyMetrics {
