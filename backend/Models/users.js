@@ -18,9 +18,5 @@ const usersSchema = new mongoose.Schema({
     error: { type: Number},
     score: { type: Number}
   },
-    rank: {
-        type:Number,
-        unique: true
-    },
 });
 module.exports = mongoose.model ('users', usersSchema);

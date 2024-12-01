@@ -8,7 +8,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 const UserProfile = () => {
   const { dropdownRef, isOpen, toggleDropdown } = useDropdown();
   const { systemTheme, setTheme } = useThemeContext();
-  const { logout, isAuthenticated } = useAuth0();
+  const { user,logout, isAuthenticated } = useAuth0(); 
 
   return (
     <>
@@ -23,21 +23,7 @@ const UserProfile = () => {
             }}
             onClick={() => toggleDropdown()}
           >
-            <UserCircle className="userProfile" size={40} style={{ color: systemTheme.text.title }} />
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='ml-3 h-4 w-4'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M19 9l-7 7-7-7'
-              />
-            </svg>
+            <img src ={user?.picture} width={40}height={40} className="rounded-[20px]"></img>
           </button>
 
           <div
@@ -55,7 +41,7 @@ const UserProfile = () => {
             {/* User Information */}
             <li className="py-2">
               <div className="flex items-center justify-center">
-                <p className="font-smal center">UserID: CodingMonkey</p>
+                <p className="font-smal center">UserID: {user?.name}</p>
               </div>
             </li>
             <li className="py-2">
