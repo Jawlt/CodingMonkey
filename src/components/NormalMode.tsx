@@ -57,12 +57,6 @@ function NormalMode() {
         ) : (
           <>
             <Header />
-            <TimeCategory
-              time={time}
-              setLocalStorage={setLocalStorageValue}
-              setTime={setTime}
-              restart={restartTest}
-            />
             <div className="flex justify-between items-center w-full">
               <LanguageSelect
                 selectedLanguage={selectedLanguage}
