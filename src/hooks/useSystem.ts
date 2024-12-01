@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { useAuth0 } from '@auth0/auth0-react';
 import { useCountdown } from './useCountdown';
 import { useKeyDown } from './useKeyDown';
 import { useLocalStorage } from './useLocalStorage';
@@ -19,6 +19,8 @@ import type { HistoryType } from '../types';
 type LanguageType = 'python' | 'javascript' | 'c';
 
 export const useSystem = (selectedLanguage: LanguageType) => {
+
+  const {user} = useAuth0(); 
   const [results, setResults] = useState<Results>({
     accuracy: 0,
     wpm: 0,
@@ -95,9 +97,15 @@ export const useSystem = (selectedLanguage: LanguageType) => {
   }
 
 const saveTestResult = async () => {
+  let data = {
+    "userId": user?.name,
+    "email": user?.email,
+    "topScore": results
+  }
   try {
-    console.log('Sending results:', results);
-    const response = await axios.post('http://localhost:3000/api/saveResults', results, {
+    console.log('Sending results:', data.topScore);
+    console.log(user?.name)
+    const response = await axios.post(`http://localhost:3000/api/userData/update/${user?.name}`, data, {
       headers: {
         'Content-Type': 'application/json',
       },
