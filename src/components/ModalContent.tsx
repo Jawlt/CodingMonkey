@@ -100,21 +100,6 @@ const ModalContent = ({ totalTime, history, results }: ModalContentProps) => {
 
       <div className='flex-[3] px-5'>
         <div className='flex items-center gap-2'>
-          <h2 className='text-xl lg:text-2xl'>watch history</h2>
-          <StyledCopyButton
-            onClick={async () => {
-              const isCopied = await copyTextToClipboard(history.typedHistory);
-              if (isCopied) {
-                setCopied(true);
-                setTimeout(() => {
-                  setCopied(false);
-                }, 2000);
-              }
-            }}
-            theme={systemTheme}
-          >
-            <IoCopy className='cursor-pointer text-xl' />
-          </StyledCopyButton>
           <div
             className='rounded-md'
             style={{
@@ -165,25 +150,6 @@ const ModalContent = ({ totalTime, history, results }: ModalContentProps) => {
             }
           }}
         >
-          <FaCameraRetro className=' text-xl' />
-          <span className='text-lg hover:underline'>
-            Screenshot your results and share to your friends🔥
-          </span>
-          <div
-            className='rounded-md'
-            style={{
-              backgroundColor: systemTheme.background.secondary,
-            }}
-          >
-            {imageCopied === true ? (
-              <span
-                className='p-5 text-center'
-                style={{ color: systemTheme.text.secondary }}
-              >
-                Image copied to clipboard 😊
-              </span>
-            ) : null}
-          </div>
         </div>
       </div>
     </div>

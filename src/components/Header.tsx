@@ -28,7 +28,7 @@ const Header = () => {
         </div>
       </div>
       <div className="flex justify-center">
-        <div className="flex gap-4">
+        <div className="flex gap-9">
           <Tooltip tooltipId="modes">
             <div
               className={`font-mono text-2xl lg:text-3xl hover:underline mr-4 cursor-pointer ${
