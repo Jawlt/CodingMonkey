@@ -97,7 +97,7 @@ const Header = ({ restart, openAboutModal }: HeaderProps) => {
       <div className='flex gap-4'>
         <ThemeDropdown />
         <button
-          onClick={() => logout({ returnTo: window.location.origin })}
+          onClick={() => logout()}
           className="px-4 py-2 rounded-lg"
           style={{
             backgroundColor: systemTheme.background.secondary,

@@ -11,8 +11,8 @@ const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Auth0Provider
-      domain={domain!}
-      clientId={clientId!}
+      domain={domain}
+      clientId={clientId}
       redirectUri={window.location.origin}
     >
       <ThemeProvider>
