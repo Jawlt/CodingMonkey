@@ -3,6 +3,7 @@ const express = require ('express');
 const cors = require ('cors');
 const db = require('./db');
 const usersRoute = require('./routes/updateUser')
+const testResultsRoute = require('./routes/testResults');
 
 const app = express();
 
@@ -14,7 +15,8 @@ app.use(express.json())
 app.use(cors());
 
 //Routes
-app.use("/api", usersRoute)
+app.use("/api", usersRoute);
+app.use("/api", testResultsRoute);
 
 const port = process.env.PORT || 3000;
 app.listen(port,() => console.log(`Connected on port ${port}`));
