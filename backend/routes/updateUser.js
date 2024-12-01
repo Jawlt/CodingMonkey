@@ -1,6 +1,17 @@
 const router = require("express").Router();
 const users = require('../Models/users.js');
 
+//gets all users
+router.get('/allUsers', async (req, res) => {
+    try {
+        const allUsers = await users.find();
+        res.json(allUsers);
+    }
+    catch(error) {
+        res.status(500).json({message: error.msg})
+    }
+})
+
 //Finds specific user based on their userID
 router.post('/userData/update/:userId', async (req, res) => {
     try {
@@ -106,5 +117,7 @@ router.post('/userData/update/:userId', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+
 
 module.exports = router
