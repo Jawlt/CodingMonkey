@@ -75,11 +75,7 @@ function App() {
           <MobileNotSupported />
         ) : (
           <>
-            <Header
-              restart={restartTest}
-              openAboutModal={openModal}
-              closeAboutModal={closeModal}
-            />
+            <Header />
             <TimeCategory
               time={time}
               setLocalStorage={setLocalStorageValue}

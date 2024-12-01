@@ -73,16 +73,16 @@ export const calculateErrorPercentage = (accuracy: number) => {
 };
 
 export const theme = {
-  blueDolphin: {
-    name: 'Blue Dolphin',
+  western: {
+    name: 'Western',
     background: {
-      primary: '#003950',
-      secondary: '#014961',
+      primary: '#8800b7',
+      secondary: '#000000',
     },
     text: {
-      primary: '#6DEAFF',
-      secondary: '#FFCEFB',
-      title: '#6DEAFF',
+      primary: '#ffffff',
+      secondary: '#FFD700',
+      title: '#ffffff',
     },
   },
   aurora: {
@@ -95,18 +95,6 @@ export const theme = {
       primary: '#235A68',
       secondary: '#00E980',
       title: '#00E980',
-    },
-  },
-  paper: {
-    name: 'Paper',
-    background: {
-      primary: '#EEEEEE',
-      secondary: '#DDDDDD',
-    },
-    text: {
-      primary: '#B4B4B4',
-      secondary: '#444444',
-      title: '#444444',
     },
   },
   cyberspace: {
@@ -131,18 +119,6 @@ export const theme = {
       primary: '#E14C94',
       secondary: '#3A3335',
       title: '#E14C94',
-    },
-  },
-  bouquet: {
-    name: 'Bouquet',
-    background: {
-      primary: '#173F35',
-      secondary: '#1F4E43',
-    },
-    text: {
-      primary: '#408E7B',
-      secondary: '#DBE0D2',
-      title: '#DBE0D2',
     },
   },
 };

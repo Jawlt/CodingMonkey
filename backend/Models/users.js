@@ -11,9 +11,13 @@ const usersSchema = new mongoose.Schema({
         required:true,
         unique: true
     },
-    topScore: {
-        type:Number,
-    },
+  topScore: {
+    wpm: { type: Number},
+    cpm: { type: Number},
+    accuracy: { type: Number},
+    error: { type: Number},
+    score: { type: Number}
+  },
     rank: {
         type:Number,
         unique: true
