@@ -16,7 +16,7 @@ app.use(cors());
 
 //Routes
 app.use("/api", usersRoute);
-app.use("/api", testResultsRoute);
+//app.use("/api", testResultsRoute);
 
 const port = process.env.PORT || 3000;
 app.listen(port,() => console.log(`Connected on port ${port}`));

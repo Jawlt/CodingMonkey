@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
+import axios from 'axios';
 
 import { useCountdown } from './useCountdown';
 import { useKeyDown } from './useKeyDown';
@@ -83,40 +84,32 @@ export const useSystem = () => {
     setTypingState('typing');
   }
 
-  const saveTestResult = async (testData: {
-    wpm: number;
-    cpm: number;
-    accuracy: number;
-    error: number;
-    watchHistory: string;
-    fullString: string;
-    score: number;
-  }) => {
-    try {
-      const response = await fetch('http://localhost:3000/api/test-results', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(testData),
-      });
+const saveTestResult = async () => {
+  try {
+    console.log('Sending results:', results);
+    const response = await axios.post('http://localhost:3000/api/saveResults', results, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-      if (!response.ok) {
-        throw new Error('Failed to save test result');
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Error saving test result:', error);
-      throw error;
-    }
-  };
-
-  // Calculate score based on WPM, accuracy, and error rate
-  const calculateScore = (wpm: number, accuracy: number, error: number) => {
-    // This is a sample scoring formula - adjust as needed
-    return Math.round((wpm * (accuracy / 100) * (1 - error / 100)));
-  };
+    console.log('Test result saved successfully:', response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+useEffect(() => {
+  if (
+    results.accuracy !== 0 || 
+    results.wpm !== 0 || 
+    results.cpm !== 0 || 
+    results.error !== 0
+  ) {
+    saveTestResult();
+  }
+}, [results]);
 
   if (countdown === 0) {
     (async () => {  // Create an immediately invoked async function
@@ -124,48 +117,19 @@ export const useSystem = () => {
       const { wpm, cpm } = calculateWPM(totalCharacterTyped, accuracy, time);
       const error = calculateErrorPercentage(accuracy);
   
-      console.log('Test completed with values:', { wpm, cpm, accuracy, error });
-  
-      const watchHistory = JSON.stringify({
-        timestamp: new Date().toISOString(),
-        duration: time,
-        wordsTyped: totalCharacterTyped.split(' ').length,
-      });
-  
-      const fullString = totalWord;
-      const calculatedScore = calculateScore(wpm, accuracy, error);
-  
-      const testData = {
-        wpm,
-        cpm,
-        accuracy,
-        error,
-        watchHistory,
-        fullString,
-        score: calculatedScore
-      };
-  
-      console.log('Attempting to save test data:', testData);
-  
-      try {
-        const result = await saveTestResult(testData);
-        console.log('Save result:', result);
-      } catch (err) {
-        console.error('Error saving test:', err);
-      }
+      console.log('Test completed with values:', { wpm, cpm, accuracy, error });  
   
       setResults({
         accuracy,
         wpm,
         cpm,
-        error,
+        error
       });
   
       setHistory({
         wordHistory: totalWord,
         typedHistory: totalCharacterTyped,
       });
-  
       openModal('result');
       restartTest();
     })();  // Immediately invoke the async function
