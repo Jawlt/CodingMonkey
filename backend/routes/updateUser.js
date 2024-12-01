@@ -30,18 +30,18 @@ router.post('/userData/update/:userId', async (req, res) => {
         }
 
         // Validate topScore
-        const { wpm, cpm, accuracy, error } = topScore || {};
+        const { wpm, accuracy, error, timing } = topScore || {};
         if (
             typeof wpm !== 'number' ||
-            typeof cpm !== 'number' ||
+            typeof timing !== 'number' ||
             typeof accuracy !== 'number' ||
             typeof error !== 'number'
         ) {
             return res.status(400).json({ message: 'Invalid score data' });
         }
 
-        // Calculate score if not provided
-        const score = Math.round((wpm + cpm + accuracy - error) / 4);
+        // Calculate score
+        const score = Math.round((wpm * (accuracy / 100)) / Math.sqrt(timing));
 
         // Check if userId in body matches userId in params
         if (userId !== paramUserId) {
@@ -49,12 +49,7 @@ router.post('/userData/update/:userId', async (req, res) => {
         }
 
         // Try to find existing user
-        let user = await users.findOne({ 
-            $or: [
-                { userId: userId },
-                { email: email }
-            ]
-        });
+        let user = await users.findOne({ userId: userId });
 
         // If user doesn't exist, create new user
         if (!user) {
@@ -63,7 +58,7 @@ router.post('/userData/update/:userId', async (req, res) => {
                 email: email,
                 topScore: {
                     wpm: wpm,
-                    cpm: cpm,
+                    timing: timing,
                     accuracy: accuracy,
                     error: error,
                     score: score
@@ -74,7 +69,7 @@ router.post('/userData/update/:userId', async (req, res) => {
             if (!user.topScore || (score > user.topScore.score)) {
                 user.topScore = {
                     wpm: wpm,
-                    cpm: cpm,
+                    timing: timing,
                     accuracy: accuracy,
                     error: error,
                     score: score
@@ -117,7 +112,5 @@ router.post('/userData/update/:userId', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-
-
 
 module.exports = router

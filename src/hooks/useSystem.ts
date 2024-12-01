@@ -26,6 +26,7 @@ export const useSystem = (selectedLanguage: LanguageType) => {
     wpm: 0,
     cpm: 0,
     error: 0,
+    timing: 0
   });
 
   const [history, setHistory] = useState<HistoryType>({
@@ -134,6 +135,7 @@ useEffect(() => {
       const { accuracy } = calculateAccuracy(totalWord, totalCharacterTyped);
       const { wpm, cpm } = calculateWPM(totalCharacterTyped, accuracy, time);
       const error = calculateErrorPercentage(accuracy);
+      const timing = countdown;
   
       console.log('Test completed with values:', { wpm, cpm, accuracy, error });  
   
@@ -141,7 +143,8 @@ useEffect(() => {
         accuracy,
         wpm,
         cpm,
-        error
+        error,
+        timing
       });
   
       setHistory({

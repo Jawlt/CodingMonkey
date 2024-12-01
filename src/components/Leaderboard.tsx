@@ -67,7 +67,7 @@ const Leaderboard: React.FC = () => {
       },
     },
   };
-
+  
   // Fetch data
   async function fetchData() {
     try {
@@ -78,7 +78,7 @@ const Leaderboard: React.FC = () => {
       const transformedData = res.data.map((item: any) => ({
         name: item.userId || 'Unknown', // Fallback for missing names
         score: item.topScore.score || item.topScore || 0, // Support both formats
-        time: item.topScore.time || 'N/A', // Default to 'N/A' if not provided
+        time: (item.topScore.timing)/1000 || 'N/A', // Default to 'N/A' if not provided
         accuracy: item.topScore.accuracy
           ? `${item.topScore.accuracy.toFixed(2)}%`
           : 'N/A',
@@ -90,6 +90,7 @@ const Leaderboard: React.FC = () => {
       console.error('Error fetching data:', error);
     }
   }
+  
 
   return (
     <div
