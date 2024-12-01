@@ -35,7 +35,7 @@ export const useSystem = (selectedLanguage: LanguageType) => {
 
   const { setLocalStorageValue, getLocalStorageValue } = useLocalStorage();
   const [wordContainerFocused, setWordContainerFocused] = useState(false);
-  const [time, setTime] = useState(() => getLocalStorageValue('time') || 15000);
+  const [time, setTime] = useState(() => 120000);  // Change timer here
   const { countdown, resetCountdown, startCountdown } = useCountdown(time);
   
   // Updated useWord call with selectedLanguage
@@ -85,11 +85,11 @@ export const useSystem = (selectedLanguage: LanguageType) => {
     [charTyped, word]
   );
 
-  if (word.length === charTyped.length) {
-    updateWord();
-    resetCharTyped();
-    resetCursorPointer();
-  }
+  // if (word.length === charTyped.length) {
+  //   updateWord();
+  //   resetCharTyped();
+  //   resetCursorPointer();
+  // }
 
   if (typingState === 'start') {
     startCountdown();
@@ -129,7 +129,7 @@ useEffect(() => {
   }
 }, [results]);
 
-  if (countdown === 0) {
+  if (countdown === 0 || word.length === charTyped.length) {
     (async () => {  // Create an immediately invoked async function
       const { accuracy } = calculateAccuracy(totalWord, totalCharacterTyped);
       const { wpm, cpm } = calculateWPM(totalCharacterTyped, accuracy, time);
