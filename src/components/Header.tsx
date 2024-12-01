@@ -10,6 +10,7 @@ const Header = () => {
   const { systemTheme } = useThemeContext();
 
   return (
+
     <header
       className="flex items-center justify-between py-2"
       style={{
@@ -19,6 +20,7 @@ const Header = () => {
       <div className="flex items-center gap-3">
         <img src={Logo} alt="Logo" width="75" height="75" />
         <h1 className="font-mono text-2xl font-bold lg:text-3xl">
+
           CodingMonkey.
         </h1>
       </div>

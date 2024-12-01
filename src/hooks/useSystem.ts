@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
+import axios from 'axios';
 
 import { useCountdown } from './useCountdown';
 import { useKeyDown } from './useKeyDown';
@@ -32,7 +33,7 @@ export const useSystem = () => {
   const [wordContainerFocused, setWordContainerFocused] = useState(false);
   const [time, setTime] = useState(() => getLocalStorageValue('time') || 15000);
   const { countdown, resetCountdown, startCountdown } = useCountdown(time);
-  const { word, updateWord, totalWord } = useWord(30);
+  const { word, updateWord, totalWord } = useWord();
   const {
     charTyped,
     typingState,
@@ -83,26 +84,57 @@ export const useSystem = () => {
     setTypingState('typing');
   }
 
-  if (countdown === 0) {
-    const { accuracy } = calculateAccuracy(totalWord, totalCharacterTyped);
-    const { wpm, cpm } = calculateWPM(totalCharacterTyped, accuracy, time);
-    const error = calculateErrorPercentage(accuracy);
-
-    setResults({
-      accuracy,
-      wpm,
-      cpm,
-      error,
+const saveTestResult = async () => {
+  try {
+    console.log('Sending results:', results);
+    const response = await axios.post('http://localhost:3000/api/saveResults', results, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
-    setHistory({
-      wordHistory: totalWord,
-      typedHistory: totalCharacterTyped,
-    });
-
-    openModal('result');
-    restartTest();
+    console.log('Test result saved successfully:', response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
+};
+useEffect(() => {
+  if (
+    results.accuracy !== 0 || 
+    results.wpm !== 0 || 
+    results.cpm !== 0 || 
+    results.error !== 0
+  ) {
+    saveTestResult();
+  }
+}, [results]);
+
+  if (countdown === 0) {
+    (async () => {  // Create an immediately invoked async function
+      const { accuracy } = calculateAccuracy(totalWord, totalCharacterTyped);
+      const { wpm, cpm } = calculateWPM(totalCharacterTyped, accuracy, time);
+      const error = calculateErrorPercentage(accuracy);
+  
+      console.log('Test completed with values:', { wpm, cpm, accuracy, error });  
+  
+      setResults({
+        accuracy,
+        wpm,
+        cpm,
+        error
+      });
+  
+      setHistory({
+        wordHistory: totalWord,
+        typedHistory: totalCharacterTyped,
+      });
+      openModal('result');
+      restartTest();
+    })();  // Immediately invoke the async function
+  }
+  
 
   return {
     charTyped,
