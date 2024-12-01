@@ -129,7 +129,7 @@ useEffect(() => {
   }
 }, [results]);
 
-  if (countdown === 0 || word.length === charTyped.length) {
+  if (countdown === 0 || word.length <= charTyped.length) {
     (async () => {  // Create an immediately invoked async function
       const { accuracy } = calculateAccuracy(totalWord, totalCharacterTyped);
       const { wpm, cpm } = calculateWPM(totalCharacterTyped, accuracy, time);
