@@ -9,11 +9,6 @@ const Leaderboard: React.FC = () => {
   // Columns for the table
   const columns = [
     {
-      name: 'Rank',
-      selector: (row: any) => row.rank,
-      sortable: true,
-    },
-    {
       name: 'Name',
       selector: (row: any) => row.name,
       sortable: true,
@@ -71,32 +66,31 @@ const Leaderboard: React.FC = () => {
 
   // Example data
   const data = [
-    { rank: 1, name: 'Alice', score: 150, time: '2:00', accuracy: '95%', wpm: 80 },
-    { rank: 2, name: 'Bob', score: 140, time: '2:15', accuracy: '90%', wpm: 75 },
-    { rank: 3, name: 'Charlie', score: 180, time: '1:50', accuracy: '97%', wpm: 85 },
+    { name: 'Alice', score: 150, time: '2:00', accuracy: '95%', wpm: 80 },
+    { name: 'Bob', score: 140, time: '2:15', accuracy: '90%', wpm: 75 },
+    { name: 'Charlie', score: 180, time: '1:50', accuracy: '97%', wpm: 85 },
   ];
 
   return (
     <div
-      className="min-h-screen w-full px-60"
+      className="flex flex-col min-h-screen w-full px-4 lg:px-20"
       style={{
         backgroundColor: systemTheme.background.primary,
         color: systemTheme.text.primary,
       }}
     >
       <Header />
-      <div className="p-1 px-4" 
-      >
-      <DataTable
-        title="Top Monkies"
-        columns={columns}
-        data={data}
-        defaultSortFieldId="score" // Sort by 'score' column by default
-        defaultSortAsc={false} // Descending order (highest score first)
-        pagination
-        highlightOnHover
-        customStyles = {customStyles} 
-      />
+      <div className="w-full max-w-6xl self-center">
+        <DataTable
+          title="Top Bananas"
+          columns={columns}
+          data={data}
+          defaultSortFieldId="score"
+          defaultSortAsc={false}
+          pagination
+          highlightOnHover
+          customStyles={customStyles}
+        />
       </div>
     </div>
   );

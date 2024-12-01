@@ -16,18 +16,16 @@ const Footer = () => {
   const { systemTheme } = useThemeContext();
   return (
     <footer className='mb-3 mt-auto'>
-      <div className=' flex items-center justify-between '>
-        <div className='flex items-center justify-center '>
-          <Tooltip tooltipId='Github'>
-            <Social
-              url='http://github.com/Estifanos12'
-              tooltipContent='Github'
-              tooltipId='Github'
-            >
-              <BsGithub className='text-2xl' />
-            </Social>
-          </Tooltip>
-        </div>
+      <div className='flex items-center justify-center '>
+        <Tooltip tooltipId='Github'>
+          <Social
+            url='https://github.com/Jawlt/WesternHackGroup'
+            tooltipContent='Github'
+            tooltipId='Github'
+          >
+            <BsGithub className='text-2xl' />
+          </Social>
+        </Tooltip>
       </div>
     </footer>
   );
