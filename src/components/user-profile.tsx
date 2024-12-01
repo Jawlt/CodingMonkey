@@ -3,10 +3,12 @@ import { useThemeContext } from '../hooks/useTheme';
 import ThemeDropdown from './ThemeDropdown';
 import { theme } from '../utils';
 import { UserCircle } from 'lucide-react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const UserProfile = () => {
   const { dropdownRef, isOpen, toggleDropdown } = useDropdown();
   const { systemTheme, setTheme } = useThemeContext();
+  const { logout, isAuthenticated } = useAuth0();
 
   return (
     <>
@@ -75,7 +77,8 @@ const UserProfile = () => {
               </div>
             </li>
             <li className="py-2 flex items-center justify-center">
-              <button className="logout">
+              <button className="logout" onClick={() => logout()}>
+                
                 <p className="font-small hover:underline">Logout</p>
               </button>
             </li>

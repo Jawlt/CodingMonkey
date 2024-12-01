@@ -3,7 +3,6 @@ import { useThemeContext } from '../hooks/useTheme';
 import { useAuth0 } from '@auth0/auth0-react';
 import { BsQuestionCircle } from 'react-icons/bs';
 import { BsKeyboardFill } from 'react-icons/bs';
-import { useThemeContext } from '../hooks/useTheme';
 import Tooltip from './Tooltip';
 import ThemeDropdown from './ThemeDropdown';
 import { useNavigate } from 'react-router-dom';
