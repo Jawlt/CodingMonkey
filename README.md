@@ -1,4 +1,5 @@
 Credit to OpenType for the frontent.
 https://github.com/Estifanos12/OpenType/blob/main/README.md 
 
-https://dorahacks.io/buidl/20389
+Hackathon: HackWestern 11
+DoraHacks: https://dorahacks.io/buidl/20389
